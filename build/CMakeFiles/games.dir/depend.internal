@@ -12,7 +12,7 @@ CMakeFiles/games.dir/src/glpre.cpp.o
  ../include/Shader.h
  ../include/camera.h
  ../include/geom.h
- ../include/glpre.h
+ ../include/glpre.hpp
  ../include/gltype.hpp
  ../include/glvar.hpp
  ../include/mesh.hpp
@@ -27,7 +27,7 @@ CMakeFiles/games.dir/src/main.cpp.o
  ../include/Shader.h
  ../include/camera.h
  ../include/geom.h
- ../include/glpre.h
+ ../include/glpre.hpp
  ../include/gltype.hpp
  ../include/glvar.hpp
  ../include/mesh.hpp

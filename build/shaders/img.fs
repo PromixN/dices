@@ -6,5 +6,5 @@ in vec2 textPos;
 void main()
 {
     FragColor =texture(Texture, textPos);
-
+    // FragColor=vec4(1.0);
 }

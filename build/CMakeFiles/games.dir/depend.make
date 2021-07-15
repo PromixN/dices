@@ -11,7 +11,7 @@ CMakeFiles/games.dir/src/geom.cpp.o: ../src/geom.cpp
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/Shader.h
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/camera.h
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/geom.h
-CMakeFiles/games.dir/src/glpre.cpp.o: ../include/glpre.h
+CMakeFiles/games.dir/src/glpre.cpp.o: ../include/glpre.hpp
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/gltype.hpp
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/glvar.hpp
 CMakeFiles/games.dir/src/glpre.cpp.o: ../include/mesh.hpp
@@ -26,7 +26,7 @@ CMakeFiles/games.dir/src/glvar.cpp.o: ../src/glvar.cpp
 CMakeFiles/games.dir/src/main.cpp.o: ../include/Shader.h
 CMakeFiles/games.dir/src/main.cpp.o: ../include/camera.h
 CMakeFiles/games.dir/src/main.cpp.o: ../include/geom.h
-CMakeFiles/games.dir/src/main.cpp.o: ../include/glpre.h
+CMakeFiles/games.dir/src/main.cpp.o: ../include/glpre.hpp
 CMakeFiles/games.dir/src/main.cpp.o: ../include/gltype.hpp
 CMakeFiles/games.dir/src/main.cpp.o: ../include/glvar.hpp
 CMakeFiles/games.dir/src/main.cpp.o: ../include/mesh.hpp

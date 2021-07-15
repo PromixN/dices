@@ -38,7 +38,7 @@ glm/ext/scalar_constants.hpp
 glm/ext/matrix_transform.hpp
 -
 
-../include/glpre.h
+../include/glpre.hpp
 glad/glad.h
 -
 GLFW/glfw3.h
@@ -134,9 +134,11 @@ intrin.h
 arm_neon.h
 -
 
-/home/promix/repos/gamepro/src/main.cpp
-glpre.h
+/home/promix/repos/gamepro/src/glpre.cpp
+glpre.hpp
+/home/promix/repos/gamepro/src/glpre.hpp
+cstdarg
 -
-iostream
+typeinfo
 -
 
