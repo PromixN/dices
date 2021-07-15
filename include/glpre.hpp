@@ -1,15 +1,15 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <camera.h>
-#include <Shader.h>
+#include <camera.hpp>
+#include <Shader.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stb_image.h>
+#include <stb_image.hpp>
 #include <glvar.hpp>
 #include <gltype.hpp>
-#include <geom.h>
+#include <geom.hpp>
 #include <models.hpp>
 #include <mesh.hpp>
 

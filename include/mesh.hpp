@@ -2,7 +2,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <gltype.hpp>
-#include <Shader.h>
+#include <Shader.hpp>
 #include <vector>
 
 class Mesh {

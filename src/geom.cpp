@@ -1,4 +1,4 @@
-#include <geom.h>
+#include <geom.hpp>
  int check_direction(vec3 v1,vec3 v2,vec3 v3)
 {
 	float a = glm::dot(v1, v2),
