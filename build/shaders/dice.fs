@@ -68,5 +68,6 @@ void main()
     // FragColor =texture(texture1,temtextPos);
     // FragColor = vec4(normal,1.0);
 
+    // FragColor
 
 }
