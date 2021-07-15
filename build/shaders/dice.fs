@@ -62,11 +62,12 @@ void main()
     vec3 temtextPos =textPos;
     if(abs(fragPos.x)>2.95||abs(fragPos.z)>2.95||abs(fragPos.y)>2.95)
     FragColor =(texture(texture1, temtextPos)*(vec4(0.7)+0.5*texture(texture2,temtextPos))+texture(texture2,temtextPos)*texture(texture2,temtextPos))*vec4(light,1.0);
-    else FragColor = vec4(0.5,0.5,0.5,1.0);
+    // else FragColor = vec4(0.5,0.5,0.5,1.0);
     // FragColor =(texture(texture1, temtextPos)*vec4(light,1.0)+0.5*texture(texture2,temtextPos))*(vec4(0.7)+0.5*texture(texture2,temtextPos));
     // FragColor = mix(texture(texture1, temtextPos), texture(texture2, temtextPos), 0.2);
     // FragColor =texture(texture1,temtextPos);
     // FragColor = vec4(normal,1.0);
 
+    // FragColor
 
 }

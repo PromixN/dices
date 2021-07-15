@@ -1,2 +1,4 @@
 chaos/*
-./build/CMakeFiles/*
+build/CMakeFiles/*
+build/.cmake/*
+.vscode/*
