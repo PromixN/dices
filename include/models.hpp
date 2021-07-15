@@ -30,6 +30,7 @@ public:
     void devide();
     std::vector<glm::vec3> get_vertices();
     std::vector<glm::vec3> get_normal();
+    std::vector<glm::vec3> get_sharp_normal();
     std::vector<glm::vec2> get_texture();
     std::vector<unsigned int> get_edges();
     virtual void updatet()
@@ -80,5 +81,6 @@ public:
     ~bounce();
     std::vector<glm::vec3>get_vertices();
     std::vector<glm::vec3>update();
+    void rotate(float angle, glm::vec3 axis);
     void updatet() override;
 };

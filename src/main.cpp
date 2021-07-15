@@ -1,4 +1,4 @@
-#include <glpre.h>
+#include <glpre.hpp>
 #include <iostream>
 
 int main()
@@ -28,7 +28,7 @@ int main()
     init_imgfunc(&imgshader);
 //model
     bounce cube(cube_vertices,CV_NUM,cube_faces,CF_NUM,cube_edges,CE_NUM);
-    bind_model(cube, 3);
+    bind_model(cube, 4);
     models plane(plane_vertices,PV_NUM,plane_faces,PF_NUM,NULL,0);
     int plane_size = bind_model(plane,0);
     plane.p=glm::vec3(0,-3.9,0);
@@ -44,18 +44,41 @@ int main()
         "./texture/5.png",
         "./texture/6.png"
     };
-    unsigned int texture1,texture2;
+    std::vector<std::string> noise_files = 
+    {
+        "./texture/noise_1.jpg",
+        "./texture/noise_1.jpg",
+        "./texture/noise_1.jpg",
+        "./texture/noise_1.jpg",
+        "./texture/noise_1.jpg",
+        "./texture/noise_1.jpg"
+    };
+    std::vector<std::string> magic_cube_files = 
+    {
+        "./texture/red.png",
+        "./texture/green.png",
+        "./texture/blue.png",
+        "./texture/white.png",
+        "./texture/orange.png",
+        "./texture/yellow.png"
+    };
+    unsigned int texture1,texture2,texture3;
     dice.use();
-	load_cube(&texture1, texture_num, files,1);
-    dice.setInt("Texture1", texture1);
-	load_text(&texture2, texture_num, "./texture/awesomeface.png",1);
-	dice.setInt("Texture2", texture2);
+	load_text(&texture2, 2, "./texture/awesomeface.png",1);
+    load_cube(&texture1, 3, files,1);
+    load_cube(&texture3, 0, magic_cube_files,1);
+    load_cube(&texture1, 1, noise_files,0);
 
-    load_img(&imgshader,"./texture/a.jpg",0);
+    // load_img(&imgshader,"./texture/a.jpg",0);
+    // load_img(&imgshader,"./texture/blue.png",1);
+    // load_img(&imgshader,"./texture/noise_1.jpg",0);
 //GL configuration
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+    glEnable(GL_CULL_FACE);
     glLineWidth(5);
+    // glFrontFace(GL_CW);
+    glCullFace(GL_FRONT);
 
     lastFrame = glfwGetTime();
     camera_main.MoveSpeed=10.0f;
@@ -68,7 +91,8 @@ int main()
         // render
         // ------
         rend_dynamic_model(dice,&plane,camera_main);
-        rend_dynamic_model(dice,&cube,camera_main);
+        // rend_dynamic_model(dice,&cube,camera_main);
+        rend_magic_cube(dice,&cube,camera_main);
         rend_img(&imgshader);
         //refresh
         glfwSwapBuffers(win_main);

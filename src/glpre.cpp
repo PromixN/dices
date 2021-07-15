@@ -1,5 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "glpre.h"
+#include "glpre.hpp"
 #include <cstdarg>
 
 #include <typeinfo>
@@ -159,6 +159,12 @@ void rend_dynamic_model(Shader& shader,models* model,Camera& camera)
 		model->updatet();
 	model_t = glm::translate(model_t,model->p)*model->model_t;
 	model_t = glm::scale(model_t,model->scale_t);
+    // glActiveTexture(GL_TEXTURE0+0);
+    // glBindTexture(GL_TEXTURE_CUBE_MAP, 2);
+	// glActiveTexture(GL_TEXTURE0+1);
+    // glBindTexture(GL_TEXTURE_CUBE_MAP, 2);
+	shader.setInt("texture1",3);
+	shader.setInt("texture2",3);
 	shader.setMat4("model",model_t);
 	shader.setMat4("view",view);
 	shader.setVec3("viewPos",camera.Position);
@@ -167,6 +173,35 @@ void rend_dynamic_model(Shader& shader,models* model,Camera& camera)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);
 	glDrawElements(GL_TRIANGLES, model->buffer.size, GL_UNSIGNED_INT, 0);
 }
+void rend_magic_cube(Shader& shader,models* model,Camera& camera)
+{
+	shader.use();
+	glm::mat4 view       = camera.view;
+	glm::mat4 projection = glm::perspective(camera.Angle, camera.Rate, 0.1f, 10000.0f);
+	
+    // glActiveTexture(GL_TEXTURE0+0);
+    // glBindTexture(GL_TEXTURE_CUBE_MAP, 3);
+    // glActiveTexture(GL_TEXTURE0+1);
+    // glBindTexture(GL_TEXTURE_CUBE_MAP, 2);
+	shader.setInt("texture1",0);
+	shader.setInt("texture2",1);
+	for(int i = 0; i < 27; i++ )
+	{
+		glm::mat4 model_t= glm::mat4(1.0f);
+		model_t = glm::translate(model_t,model->p+magic_pos[i])*model->model_t;
+		model_t = glm::scale(model_t,model->scale_t);
+		shader.setMat4("model",model_t);
+		shader.setMat4("view",view);
+		shader.setVec3("viewPos",camera.Position);
+		shader.setMat4("projection",projection);
+    	// shader.setInt("Texture1", 1);
+		glBindVertexArray(model->buffer.VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);
+		glDrawElements(GL_TRIANGLES, model->buffer.size, GL_UNSIGNED_INT, 0);
+	}
+
+}
+
 
 void Bind_static_float_element_3(
 	unsigned int* VAO, unsigned int* VBO, unsigned int* EBO, float* vertices, \
@@ -271,7 +306,7 @@ void load_text(unsigned int* texture,int num, const char* file_name,char is_alph
 {
 	stbi_set_flip_vertically_on_load(false);
 	glGenTextures(1, texture);
-	glActiveTexture(GL_TEXTURE0+*texture);
+	glActiveTexture(GL_TEXTURE0+num);
 	glBindTexture(GL_TEXTURE_2D, *texture);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -298,6 +333,7 @@ void load_cube(unsigned int* texture,int num,std::vector<std::string> file_name,
 	stbi_set_flip_vertically_on_load(false);
 	glGenTextures(1, texture); //生成材质id
     glActiveTexture(GL_TEXTURE0+num);
+
     glBindTexture(GL_TEXTURE_CUBE_MAP, *texture);//绑定材质ID 与立方体贴图对象进行关联
 
 	// glCreateTextures(1,GL_TEXTURE_CUBE_MAP,texture);
@@ -314,15 +350,16 @@ void load_cube(unsigned int* texture,int num,std::vector<std::string> file_name,
 		{
 		glTexImage2D(
             GL_TEXTURE_CUBE_MAP_POSITIVE_X + count++, 0,
-            GL_RGB+is_alpha, 1024, 1024, 0, GL_RGB+is_alpha, GL_UNSIGNED_BYTE, data
+            GL_RGB+is_alpha, width, height, 0, GL_RGB+is_alpha, GL_UNSIGNED_BYTE, data
         );
+		stbi_image_free(data);
+
 		}
 		else
 		{
 			std::cout << "Failed to load texture" << std::endl;
 		}
 		
-		stbi_image_free(data);
 
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -384,6 +421,8 @@ unsigned int bind_model(models &model, int times)
     std::vector<unsigned int> indices = model.get_indicies();
     std::vector<glm::vec3>vertices = model.get_vertices();
     std::vector<glm::vec3>normals = model.get_normal();
+    // std::vector<glm::vec3>normals = model.get_sharp_normal();
+
     std::vector<glm::vec2>texture = model.get_texture();
     // std::cout<<indices.size()<<std::endl;
     // std::cout<<vertices.size()<<std::endl;
@@ -429,8 +468,8 @@ void init_imgfunc(ImgShader *shader)
 	float vertices []=
 	{
 	-1.0, -1.0, 0.0,	0.0,1.0,
-	1.0	, -1.0, 0.0,	1.0,1.0,
 	-1.0,  1.0, 0.0,	0.0,0.0,
+	1.0	, -1.0, 0.0,	1.0,1.0,
 	1.0 ,  1.0, 0.0,	1.0,0.0,
 	1.0	, -1.0, 0.0,	1.0,1.0,
 	-1.0,  1.0, 0.0,	0.0,0.0
@@ -441,7 +480,7 @@ void init_imgfunc(ImgShader *shader)
 void load_img(ImgShader* shader, char * path,int isalpha)
 {
 	unsigned int text;
-	load_text(&text, texture_num++, path, isalpha);
+	load_text(&text, 0, path, isalpha);
 	int width, height, nrChnnels;
 	stbi_load(path, &width, &height, &nrChnnels, 0);
 	float rate = ((float)height)/((float)width);
@@ -457,8 +496,7 @@ void rend_img(ImgShader* shader)
 		shader->setFloat("offset_y",img.offset_y);
 		shader->setFloat("scale_x",img.scale_x);
 		shader->setFloat("scale_y",img.scale_y);
-		shader->setInt("Texture",img.texture);
-		// std::cout<<img.texture<<std::endl;
+		glBindTexture(GL_TEXTURE_2D, img.texture);
 		glBindVertexArray(shader->buffer.VAO);
 		glDrawArrays(GL_TRIANGLES,0,shader->buffer.size);
 		// glDrawElements(GL_TRIANGLES, shader->buffer.size, GL_UNSIGNED_INT, 0);

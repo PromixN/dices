@@ -64,6 +64,7 @@ void load_cube(unsigned int* texture,int num, std::vector<std::string> file_name
 void window_update();
 // void rend_dynamic_model(Shader shader,models model,Camera camera);
 void rend_dynamic_model(Shader& shader,models *model,Camera& camera);
+void rend_magic_cube(Shader& shader,models *model,Camera& camera);
 DL_Infactor getDLInfactor(int distance);
 void load_img(ImgShader* shader, char * path,int isalpha);
 void init_imgfunc(ImgShader *shader);

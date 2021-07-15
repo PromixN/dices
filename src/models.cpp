@@ -1,7 +1,7 @@
 #include <models.hpp>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
-float r =5;
+float r =15;
 glm::vec3 rate((r*r)/((1+r)*(1+r)),1.0*r/((1+r)*(1+r)),1/((1+r)*(1+r)));
 
 models::models(float* vertexs,int vsize,unsigned int * faces,int fsize,unsigned int * edges, int esize)
@@ -233,7 +233,29 @@ std::vector<glm::vec3> models::get_normal()
     }
     return normal;
 }
+std::vector<glm::vec3> models::get_sharp_normal()
+{
+    std::vector<glm::vec3> normal{this->vertex.size()};
+    for(auto face : this->face)
+    {
+        bool tri = face[3]==face[2];
+        glm::vec3& v0 = this->vertex[face[0]];
+        glm::vec3& v1 = this->vertex[face[1]];
 
+        glm::vec3 norm = glm::cross(v1,v0);
+
+        normal[face[0]]+=norm;
+        normal[face[1]]+=norm;
+        normal[face[2]]+=norm;
+        if(!tri)
+        normal[face[3]]+=norm;
+    }
+    for(auto& vec:normal)
+    {
+        vec = glm::normalize(vec);
+    }
+    return normal;
+}
 glm::vec2 get_offset(int i,bool sig)
 {
     switch (i)
@@ -331,7 +353,6 @@ bounce::bounce(std::vector<glm::vec3>  vertice, std::vector<unsigned int> modele
 }
 bounce::bounce(float* vertexs,int vsize,unsigned int * faces,int fsize,unsigned int * edges, int esize)
 {
-    glm::mat4 trans = glm::mat4(1.0);
 
     if(vsize%(3)||fsize%(4)||esize%(4)) 
     {
@@ -350,8 +371,14 @@ bounce::bounce(float* vertexs,int vsize,unsigned int * faces,int fsize,unsigned 
         edge.push_back(glm::vec<4,unsigned int,glm::packed_highp>(edges[4*i],edges[4*i+1],edges[4*i+2],edges[4*i+3]));
     }
 
-    trans = glm::rotate(trans,glm::radians(75.0f),glm::vec3(1.0,1.0,1.0));
-    this->model_t = glm::rotate(this->model_t,glm::radians(75.0f),glm::vec3(1.0,1.0,1.0));
+
+}
+void bounce::rotate(float angle, glm::vec3 axis)
+{
+    glm::mat4 trans = glm::mat4(1.0);
+
+    trans = glm::rotate(trans,glm::radians(angle),axis);
+    this->model_t = glm::rotate(this->model_t,glm::radians(angle),axis);
     this->x=trans*glm::vec4(this->x[0],this->x[1],this->x[2],1.0);
     this->y=trans*glm::vec4(this->y[0],this->y[1],this->y[2],1.0);
     this->z=trans*glm::vec4(this->z[0],this->z[1],this->z[2],1.0);

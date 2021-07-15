@@ -33,4 +33,5 @@
     extern unsigned int cube_edges [CE_NUM];
     extern float plane_vertices [PV_NUM];
     extern unsigned int plane_faces[PF_NUM];
+    extern glm::vec3 magic_pos[27];
 #endif
