@@ -1,0 +1,3 @@
+/home/promix/repos/gamepro/build/CMakeFiles/rebuild_cache.dir
+/home/promix/repos/gamepro/build/CMakeFiles/edit_cache.dir
+/home/promix/repos/gamepro/build/CMakeFiles/games.dir
