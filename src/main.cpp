@@ -29,7 +29,7 @@ int main()
     ImgShader imgshader("./shaders/img.vs","./shaders/img.fs");
     init_imgfunc(&imgshader);
 //model
-    unsigned int VAO,VBO;
+    unsigned int VAO,VBO;//REND DOT
     float vertices []=
 	{
 	1,0,0,
@@ -75,6 +75,8 @@ int main()
     };
     unsigned int texture1,texture2,texture3;
     dice.use();
+
+    //TODO:: bind texture unit wite shader
 	load_text(&texture2, 2, "./texture/awesomeface.png",1);
     load_cube(&texture1, 3, files,1);
     load_cube(&texture3, 0, magic_cube_files,1);
