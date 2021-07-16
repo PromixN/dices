@@ -5,8 +5,8 @@
     #include <gltype.hpp>
 
 
-    #define WINDOW_WIDTH	1800
-    #define WINDOW_HEIGHT	1000
+    #define WINDOW_WIDTH	800
+    #define WINDOW_HEIGHT	600
     #define VIEW_WIDTH		1000
     #define VIEW_HEIGHT		1000
     #define PI				3.1415627
@@ -24,6 +24,7 @@
     #define CE_NUM		    48
     #define PV_NUM		    12
     #define PF_NUM		    4
+    #define INTERVAL_RTT    50
 
     extern int texture_num;
     extern float cube_box[CUBE_NUM] ;
@@ -34,6 +35,6 @@
     extern unsigned int cube_edges [CE_NUM];
     extern float plane_vertices [PV_NUM];
     extern unsigned int plane_faces[PF_NUM];
-    extern glm::vec3 magic_pos[27];
     extern cube_dsc_t cube_dsc;
+    extern cube_dsc_t *cube_dsc_head;
 #endif

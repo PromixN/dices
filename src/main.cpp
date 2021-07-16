@@ -34,7 +34,7 @@ int main()
     int plane_size = bind_model(plane,0);
     plane.p=glm::vec3(0,-3.9,0);
     plane.scale_t=glm::vec3(200.0,1.0, 200.0);
-
+    init_list(cube_dsc_head);
 //texture
     std::vector<std::string> files = 
     {
@@ -57,11 +57,11 @@ int main()
     std::vector<std::string> magic_cube_files = 
     {
         "./texture/red.png",
+        "./texture/orange.png",
         "./texture/green.png",
         "./texture/blue.png",
-        "./texture/white.png",
-        "./texture/orange.png",
-        "./texture/yellow.png"
+        "./texture/yellow.png",
+        "./texture/white.png"
     };
     unsigned int texture1,texture2,texture3;
     dice.use();
@@ -84,16 +84,19 @@ int main()
     lastFrame = glfwGetTime();
     camera_main.MoveSpeed=10.0f;
     dice.setBool("col",true);
+    int count = 0;
     while (!glfwWindowShouldClose(win_main))
     {
         // input
         // -----
         window_update();
+        if(!(count%INTERVAL_RTT))
+        step(0,2,0);
         // render
         // ------
         rend_dynamic_model(dice,&plane,camera_main);
         // rend_dynamic_model(dice,&cube,camera_main);
-        rend_magic_cube(cube_shader,&cube,camera_main);
+        rend_magic_cube(cube_shader,&cube,camera_main,(count++%INTERVAL_RTT));
         rend_img(&imgshader);
         //refresh
         glfwSwapBuffers(win_main);

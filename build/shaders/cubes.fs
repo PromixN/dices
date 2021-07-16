@@ -33,12 +33,12 @@ void main()
     else spec = light_color*pow(max(0.0,dot(light_ref,normalize(viewPos-fragPos))),16);
     diff = light_color*max(0.0,dot(light_ref,normal_tem));
     // diff = vec3(0);
-    light = diff*0.2+spec*0.4+ambient*0.4;
+    light = diff*0.2+spec*0.3+ambient*0.5;
 
     vec3 temtextPos =textPos;
     if(abs(fragPos.x)>2.95||abs(fragPos.z)>2.95||abs(fragPos.y)>2.95)
     FragColor =(texture(texture1, temtextPos)*(vec4(0.8)+0.5*texture(texture2,temtextPos))+texture(texture2,temtextPos)*texture(texture2,temtextPos))*vec4(light,1.0);
-    else FragColor = vec4(0.5,0.5,0.5,1.0);
+    else FragColor = vec4(0.8,0.8,0.8,1.0)*vec4(light,1.0);
     // FragColor =(texture(texture1, temtextPos)*vec4(light,1.0)+0.5*texture(texture2,temtextPos))*(vec4(0.7)+0.5*texture(texture2,temtextPos));
     // FragColor = mix(texture(texture1, temtextPos), texture(texture2, temtextPos), 0.2);
     // FragColor =texture(texture1,temtextPos);

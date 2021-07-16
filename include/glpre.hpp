@@ -42,6 +42,9 @@ int init_window(GLFWwindow** window, int width, int height, \
 int init_glad();
 
 int init_cube(unsigned int * VAO,unsigned int * VBO);
+int init_list(cube_dsc_t* dsc);
+int push_list(cube_dsc_t* dsc,cube_dsc_t* new_dsc);
+void step(int axis, int pos, int cw);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -65,6 +68,7 @@ void window_update();
 // void rend_dynamic_model(Shader shader,models model,Camera camera);
 void rend_dynamic_model(Shader& shader,models *model,Camera& camera);
 void rend_magic_cube(Shader& shader,models *model,Camera& camera);
+void rend_magic_cube(Shader& shader,models *model,Camera& camera,int interval);
 DL_Infactor getDLInfactor(int distance);
 void load_img(ImgShader* shader, char * path,int isalpha);
 void init_imgfunc(ImgShader *shader);

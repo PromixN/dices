@@ -24,6 +24,24 @@ bool right_down = false;
 
 float lastX =0.0f;
 float lastY =0.0f;
+unsigned int cube_idx[3][9]=
+{
+	{1 ,4 ,7 ,16,25,22,19,10,13},
+	{7 ,8 ,9 ,18,27,26,25,16,17},
+	{1 ,2 ,3 ,6 ,9 ,8 ,7 ,4 ,5 }
+};
+int cube_pos_d[3][3]
+{
+	{2, 1, 0 },
+	{0,-3,-6 },
+	{0, 9, 18}
+};
+glm::vec3 axises [3]=
+{
+	glm::vec3(1.0,0.0,0.0),
+	glm::vec3(0.0,1.0,0.0),
+	glm::vec3(0.0,0.0,1.0)
+};
 
 int init_glfw(int maj_version, int min_version)
 {
@@ -69,6 +87,17 @@ int init_cube(unsigned int * VAO,unsigned int * VBO)
 	return 0;		
 }
 
+int init_list(cube_dsc_t* dsc)
+{
+	dsc->next=dsc->prev=dsc;
+}
+int push_list(cube_dsc_t* dsc,cube_dsc_t* new_dsc)
+{
+	new_dsc->next=dsc;
+	new_dsc->prev=dsc->prev;
+	dsc->prev->next=new_dsc;
+	dsc->prev=new_dsc;
+}
 void processInput(GLFWwindow* window)
 {
 	char direction=0;
@@ -118,6 +147,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 		/*if(abs(xoffset)>FLT_EPSILON||abs(yoffset)>FLT_EPSILON)*/
 		camera_main.ProcessMouseMovement(xoffset,yoffset);
+	}
+	if(right_down)
+	{
+
 	}
 
 }
@@ -173,7 +206,7 @@ void rend_dynamic_model(Shader& shader,models* model,Camera& camera)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);
 	glDrawElements(GL_TRIANGLES, model->buffer.size, GL_UNSIGNED_INT, 0);
 }
-void rend_magic_cube(Shader& shader,models* model,Camera& camera)
+void rend_magic_cube(Shader& shader,models* model,Camera& camera,int interval)
 {
 	shader.use();
 	glm::mat4 view       = camera.view;
@@ -185,16 +218,33 @@ void rend_magic_cube(Shader& shader,models* model,Camera& camera)
     // glBindTexture(GL_TEXTURE_CUBE_MAP, 2);
 	shader.setInt("texture1",0);
 	shader.setInt("texture2",1);
+	cube_dsc_t * dsc = cube_dsc_head->prev;
+	float agl_d = dsc->record[2]? 0.5*PI:-0.5*PI;
+	agl_d*=(float(interval)/INTERVAL_RTT);
 	for(int i = 0; i < 27; i++ )
 	{
 		glm::mat4 model_t= glm::mat4(1.0f);
-		model_t = glm::translate(model_t,model->p+cube_dsc.pos[i])*model->model_t;
+		model_t = glm::translate(model_t,model->p+dsc->pos[i])*model->model_t;
 		model_t = glm::scale(model_t,model->scale_t);
 		shader.setMat4("model",model_t);
 		shader.setMat4("view",view);
 		shader.setVec3("viewPos",camera.Position);
 		shader.setMat4("projection",projection);
-		shader.setMat4("rotate",cube_dsc.rotate[i]);
+		int found = -1;
+		int count = 0;
+		for(auto & pair : dsc->operand)
+		{
+			if(pair[1]==i)
+				found = count;
+			count++;
+		}
+		if(found!=-1)
+			shader.setMat4("rotate",glm::rotate(
+					dsc->prev->rotate[dsc->operand[found][0]],
+					agl_d,
+					axises[dsc->record[0]]));
+		else
+			shader.setMat4("rotate",dsc->rotate[i]);
     	// shader.setInt("Texture1", 1);
 		glBindVertexArray(model->buffer.VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);
@@ -202,8 +252,56 @@ void rend_magic_cube(Shader& shader,models* model,Camera& camera)
 	}
 
 }
+void rend_magic_cube(Shader& shader,models* model,Camera& camera)
+{
+	shader.use();
+	glm::mat4 view       = camera.view;
+	glm::mat4 projection = glm::perspective(camera.Angle, camera.Rate, 0.1f, 10000.0f);
+	shader.setInt("texture1",0);
+	shader.setInt("texture2",1);
+	cube_dsc_t * dsc = cube_dsc_head->prev;
+	for(int i = 0; i < 27; i++ )
+	{
+		glm::mat4 model_t= glm::mat4(1.0f);
+		model_t = glm::translate(model_t,model->p+dsc->pos[i])*model->model_t;
+		model_t = glm::scale(model_t,model->scale_t);
+		shader.setMat4("model",model_t);
+		shader.setMat4("view",view);
+		shader.setVec3("viewPos",camera.Position);
+		shader.setMat4("projection",projection);
+		shader.setMat4("rotate",dsc->rotate[i]);
+    	// shader.setInt("Texture1", 1);
+		glBindVertexArray(model->buffer.VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);
+		glDrawElements(GL_TRIANGLES, model->buffer.size, GL_UNSIGNED_INT, 0);
+	}
 
-
+}
+void step(int axis, int pos, int cw)
+{
+int idx_d = cw? 6: 2;
+float agl_d = cw? 0.5*PI:-0.5*PI;
+int idx_offset = cube_pos_d[axis][pos];
+cube_dsc_t * new_dsc = new(cube_dsc_t);
+cube_dsc_t * prev = cube_dsc_head->prev;
+*new_dsc=*(cube_dsc_head->prev);
+new_dsc->operand=std::vector<uvec2>(0);
+for(int i = 0; i < 9; i ++)
+{
+	int index = cube_idx[axis][i]+idx_offset-1; 
+	int next;
+	if(i<8)
+		next = cube_idx[axis][(i+idx_d)%8]+idx_offset-1; 
+	else 
+		next = index;
+	new_dsc->pos[next]=prev->pos[index];
+	new_dsc->index[next]=prev->index[index];
+	new_dsc->rotate[next]=glm::rotate(prev->rotate[index],agl_d,axises[axis]);
+	new_dsc->operand.push_back(glm::uvec2(index,next));
+}
+new_dsc->record= glm::uvec3(axis,pos,cw);
+push_list(cube_dsc_head,new_dsc);
+}
 void Bind_static_float_element_3(
 	unsigned int* VAO, unsigned int* VBO, unsigned int* EBO, float* vertices, \
 	unsigned long long int vertices_size, unsigned int* indices, \

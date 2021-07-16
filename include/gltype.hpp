@@ -38,5 +38,10 @@
     {
         std::vector<glm::vec3> pos;
         std::vector<glm::mat4> rotate;
+        glm::uvec3 record;
+        std::vector<unsigned int> index;
+        std::vector<glm::uvec2> operand;
+        struct cube_dsct * prev;
+        struct cube_dsct * next;
     }cube_dsc_t;
 #endif
