@@ -2,6 +2,7 @@
     #define GLTYPES
     #include <glm/glm.hpp>
     #include <string>
+    #include <vector>
     typedef struct graph_buffers
     {
     unsigned int VAO;
@@ -33,4 +34,9 @@
         unsigned int id;
         std::string type;
     }texture_t;
+    typedef struct cube_dsct
+    {
+        std::vector<glm::vec3> pos;
+        std::vector<glm::mat4> rotate;
+    }cube_dsc_t;
 #endif

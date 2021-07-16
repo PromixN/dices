@@ -13,29 +13,6 @@ void main()
 {
     vec3 lightPos = vec3(100, 100, 100);
 
-
-    // vec3 cent;
-    // if(abs(temPos.x)>=abs(temPos.y)&&abs(temPos.x)>=abs(temPos.z))
-    // {
-    //     if(temPos.x>0) 
-    //         cent = vec3(1,0,0);
-    //     else
-    //         cent = vec3(-1,0,0);
-    // }
-    // if(abs(temPos.y)>=abs(temPos.x)&&abs(temPos.y)>=abs(temPos.z))
-    // {
-    //     if(temPos.y>0) 
-    //         cent = vec3(0,1,0);
-    //     else
-    //         cent = vec3(0,-1,0);
-    // }
-    // if(abs(temPos.z)>=abs(temPos.y)&&abs(temPos.z)>=abs(temPos.x))
-    // {
-    //     if(temPos.z>0) 
-    //         cent = vec3(0,0,1);
-    //     else
-    //         cent = vec3(0,0,-1);
-    // }
     // vec3 t = cent-temPos;
     // t = normalize(t + normal*dot(normal,t));
     // vec3 b = cross(normal,t);
@@ -43,7 +20,6 @@ void main()
     // float rate =sqrt(dot(v,v));
     // vec3 normal_tem = normalize(-rate*t+normal);
     vec3 normal_tem = normalize(normal);
-    // vec3 normal_tem = normalize(normal);
     vec3 light = vec3(0.0);
     vec3 light_color = vec3(1.0);
     vec3 diff,spec,ambient;

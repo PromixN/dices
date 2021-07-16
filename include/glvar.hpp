@@ -1,6 +1,7 @@
 #ifndef GLVAR
 #define GLVAR
     #include <map>
+    #include <vector>
     #include <gltype.hpp>
 
 
@@ -34,4 +35,5 @@
     extern float plane_vertices [PV_NUM];
     extern unsigned int plane_faces[PF_NUM];
     extern glm::vec3 magic_pos[27];
+    extern cube_dsc_t cube_dsc;
 #endif

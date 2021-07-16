@@ -188,12 +188,13 @@ void rend_magic_cube(Shader& shader,models* model,Camera& camera)
 	for(int i = 0; i < 27; i++ )
 	{
 		glm::mat4 model_t= glm::mat4(1.0f);
-		model_t = glm::translate(model_t,model->p+magic_pos[i])*model->model_t;
+		model_t = glm::translate(model_t,model->p+cube_dsc.pos[i])*model->model_t;
 		model_t = glm::scale(model_t,model->scale_t);
 		shader.setMat4("model",model_t);
 		shader.setMat4("view",view);
 		shader.setVec3("viewPos",camera.Position);
 		shader.setMat4("projection",projection);
+		shader.setMat4("rotate",cube_dsc.rotate[i]);
     	// shader.setInt("Texture1", 1);
 		glBindVertexArray(model->buffer.VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->buffer.EBO);

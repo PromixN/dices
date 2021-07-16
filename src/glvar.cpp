@@ -113,37 +113,39 @@ unsigned int plane_faces[PF_NUM]=
 };
 int texture_num = 0;
 
-glm::vec3 magic_pos[27]=
+std::vector<glm::vec3> magic_pos=
 {
-        glm::vec3( 2.0, 2.0, 2.0),
-        glm::vec3( 2.0, 2.0,-2.0),
-        glm::vec3( 2.0, 2.0,   0),
-        glm::vec3( 2.0,-2.0, 2.0),
-        glm::vec3( 2.0,-2.0,-2.0),
-        glm::vec3( 2.0,-2.0,   0),
-        glm::vec3( 2.0,   0, 2.0),
-        glm::vec3( 2.0,   0,-2.0),
-        glm::vec3( 2.0,   0,   0),
 
-        glm::vec3(-2.0, 2.0, 2.0),
-        glm::vec3(-2.0, 2.0,-2.0),
-        glm::vec3(-2.0, 2.0,   0),
-        glm::vec3(-2.0,-2.0, 2.0),
-        glm::vec3(-2.0,-2.0,-2.0),
-        glm::vec3(-2.0,-2.0,   0),
-        glm::vec3(-2.0,   0, 2.0),
-        glm::vec3(-2.0,   0,-2.0),
-        glm::vec3(-2.0,   0,   0),
+        glm::vec3(-2.0, -2.0, -2.0),
+        glm::vec3(   0, -2.0, -2.0),
+        glm::vec3( 2.0, -2.0, -2.0),
+        glm::vec3(-2.0,    0, -2.0),
+        glm::vec3(   0,    0, -2.0),
+        glm::vec3( 2.0,    0, -2.0),
+        glm::vec3(-2.0,  2.0, -2.0),
+        glm::vec3(   0,  2.0, -2.0),
+        glm::vec3( 2.0,  2.0, -2.0),
         
-        glm::vec3(   0, 2.0, 2.0),
-        glm::vec3(   0, 2.0,-2.0),
-        glm::vec3(   0, 2.0,   0),
-        glm::vec3(   0,-2.0, 2.0),
-        glm::vec3(   0,-2.0,-2.0),
-        glm::vec3(   0,-2.0,   0),
-        glm::vec3(   0,   0, 2.0),
-        glm::vec3(   0,   0,-2.0),
-        glm::vec3(   0,   0,   0)
+        glm::vec3(-2.0, -2.0,    0),
+        glm::vec3(   0, -2.0,    0),
+        glm::vec3( 2.0, -2.0,    0),
+        glm::vec3(-2.0,    0,    0),
+        glm::vec3(   0,    0,    0),
+        glm::vec3( 2.0,    0,    0),
+        glm::vec3(-2.0,  2.0,    0),
+        glm::vec3(   0,  2.0,    0),
+        glm::vec3( 2.0,  2.0,    0),
+
+
+        glm::vec3(-2.0, -2.0,  2.0),
+        glm::vec3(   0, -2.0,  2.0),
+        glm::vec3( 2.0, -2.0,  2.0),
+        glm::vec3(-2.0,    0,  2.0),
+        glm::vec3(   0,    0,  2.0),
+        glm::vec3( 2.0,    0,  2.0),
+        glm::vec3(-2.0,  2.0,  2.0),
+        glm::vec3(   0,  2.0,  2.0),
+        glm::vec3( 2.0,  2.0,  2.0),
 };
 /*
 r 0
@@ -169,5 +171,6 @@ int texture_indecies[27][6]=
 {
         {}
 };
+std::vector<glm::mat4> magic_rotate (27,glm::mat4(1.0));
 
-
+cube_dsc_t cube_dsc ={magic_pos,magic_rotate}

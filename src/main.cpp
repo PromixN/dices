@@ -23,6 +23,7 @@ int main()
 	glfwSetScrollCallback(win_main, scroll_callback);
 //shader
     Shader dice("./shaders/dice.vs", "./shaders/dice.fs");
+    Shader cube_shader("./shaders/cubes.vs", "./shaders/cubes.fs");
     Shader edge("./shaders/edge.vs", "./shaders/edge.fs");
     ImgShader imgshader("./shaders/img.vs","./shaders/img.fs");
     init_imgfunc(&imgshader);
@@ -92,7 +93,7 @@ int main()
         // ------
         rend_dynamic_model(dice,&plane,camera_main);
         // rend_dynamic_model(dice,&cube,camera_main);
-        rend_magic_cube(dice,&cube,camera_main);
+        rend_magic_cube(cube_shader,&cube,camera_main);
         rend_img(&imgshader);
         //refresh
         glfwSwapBuffers(win_main);
