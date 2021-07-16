@@ -34,11 +34,17 @@
         unsigned int id;
         std::string type;
     }texture_t;
+    typedef struct step_dsct
+    {
+        int axis;
+        int pos;
+        int direction;
+    } step_dsc_t;
     typedef struct cube_dsct
     {
         std::vector<glm::vec3> pos;
         std::vector<glm::mat4> rotate;
-        glm::uvec3 record;
+        step_dsc_t record;
         std::vector<unsigned int> index;
         std::vector<glm::uvec2> operand;
         struct cube_dsct * prev;

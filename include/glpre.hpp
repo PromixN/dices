@@ -24,7 +24,7 @@ extern int view_y;
 
 extern int frame_count;
 extern int frame_move;
-
+extern int move_dir;                   
 extern Camera camera_main;
 
 extern  Shader gradual;

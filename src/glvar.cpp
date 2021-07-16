@@ -178,7 +178,6 @@ std::vector<unsigned int> magic_index =
         20,21,22,23,24,25,26,27
 };
 std::vector<glm::mat4> magic_rotate (27,glm::mat4(1.0));
-glm::uvec3 magic_record =glm::uvec3(0);
 
-cube_dsc_t cube_dsc ={magic_pos,magic_rotate,magic_record,magic_index,{},nullptr,nullptr};
+cube_dsc_t cube_dsc ={magic_pos,magic_rotate,{},magic_index,{},nullptr,nullptr};
 cube_dsc_t * cube_dsc_head=&cube_dsc;

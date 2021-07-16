@@ -1,9 +1,8 @@
 #include <glpre.hpp>
 
-extern int cube_index;
-extern int direction;
+extern int hight_index;
+extern int rotate_direction;
 extern int to_axis;
-extern int move_dir;
 extern int touch_face;
 extern glm::uvec3 at_pos;
 extern glm::vec3 hit_pos;
@@ -22,6 +21,5 @@ void step(int axis, int pos, int cw);
 int init_list(cube_dsc_t* dsc);
 int push_list(cube_dsc_t* dsc,cube_dsc_t* new_dsc);
 glm::uvec3 get_index(glm::vec3 pos);
-int get_axis();
-int get_direction();
+void get_axis_direction(int &axis,int &direction);
 void choose_cube(double xpos,double ypos);

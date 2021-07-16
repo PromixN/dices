@@ -13,6 +13,8 @@ int view_y;
 int frame_count;
 int frame_move;
 
+int     move_dir;                   
+
 Camera camera_main;
 
 Shader gradual;
@@ -100,11 +102,10 @@ void mouse_button_callback(GLFWwindow* window, int botton, int action, int mods)
 		right_down = res;
 		if(!res&&frame_count==INTERVAL_RTT)
 		{
-			to_axis=get_axis();
-			direction=get_direction();
+			get_axis_direction(to_axis,rotate_direction);
 			printf("%d:%d:%d\n",at_pos.x,at_pos.y,at_pos.z);
-			printf("%s:%s:%s\n",fa_str[touch_face],ax_str[to_axis],dir_str[direction]);
-			step(to_axis,at_pos[to_axis],direction);
+			printf("%s:%s:%s\n",fa_str[touch_face],ax_str[to_axis],dir_str[rotate_direction]);
+			step(to_axis,at_pos[to_axis],rotate_direction);
 		}
 		break;
 	default:	
@@ -133,7 +134,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	if(right_down)
 	{
 		// std::cout<<xpos<<"::"<<ypos<<std::endl;
-		if(cube_index==-1)
+		if(hight_index==-1)
 		{
 			choose_cube(xpos,ypos);
 		}
@@ -157,7 +158,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	}
 	else
 	{
-		cube_index=-1;
+		hight_index=-1;
 	}
 
 }
