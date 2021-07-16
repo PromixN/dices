@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <glm/ext/matrix_transform.hpp>
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 
 using namespace glm;
 
@@ -63,9 +63,9 @@ public:
 		WorldFront = vec3(0.0f,0.0f,-1.0f);
 		WorldRight = vec3(1.0f,0.0f,0.0f);
 		WorldUp = vec3(0.0f,1.0f,0.0f);
-		Front=normalize(LookingAt-Position);
 		Yaw = Pitch = Roll =0.0f;
 		LookingAt = lookingat;
+		Front=normalize(LookingAt-Position);
 		LookingTo();
 		MouseSensitivity =0.5f;
 		AngleSensitivity =0.05f;
@@ -167,6 +167,7 @@ private:
         front.x = sin(radians(Yaw)) * cos(radians(Pitch));
 		Front = normalize(front.x* WorldRight + front.y*WorldUp + front.z*WorldFront);
 		LookingAt = cross(WorldUp,WorldFront) ;
+		// std::cout<<front.x<<":"<<front.y<<":"<<front.z<<std::endl;
 	}
 		void LookingTo()
 	{

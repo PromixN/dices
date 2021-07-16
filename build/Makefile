@@ -258,6 +258,33 @@ src/glvar.cpp.s:
 	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/glvar.cpp.s
 .PHONY : src/glvar.cpp.s
 
+src/magic_cube.o: src/magic_cube.cpp.o
+
+.PHONY : src/magic_cube.o
+
+# target to build an object file
+src/magic_cube.cpp.o:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/magic_cube.cpp.o
+.PHONY : src/magic_cube.cpp.o
+
+src/magic_cube.i: src/magic_cube.cpp.i
+
+.PHONY : src/magic_cube.i
+
+# target to preprocess a source file
+src/magic_cube.cpp.i:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/magic_cube.cpp.i
+.PHONY : src/magic_cube.cpp.i
+
+src/magic_cube.s: src/magic_cube.cpp.s
+
+.PHONY : src/magic_cube.s
+
+# target to generate assembly for a file
+src/magic_cube.cpp.s:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/magic_cube.cpp.s
+.PHONY : src/magic_cube.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -284,6 +311,33 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/mesh.o: src/mesh.cpp.o
+
+.PHONY : src/mesh.o
+
+# target to build an object file
+src/mesh.cpp.o:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/mesh.cpp.o
+.PHONY : src/mesh.cpp.o
+
+src/mesh.i: src/mesh.cpp.i
+
+.PHONY : src/mesh.i
+
+# target to preprocess a source file
+src/mesh.cpp.i:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/mesh.cpp.i
+.PHONY : src/mesh.cpp.i
+
+src/mesh.s: src/mesh.cpp.s
+
+.PHONY : src/mesh.s
+
+# target to generate assembly for a file
+src/mesh.cpp.s:
+	$(MAKE) -f CMakeFiles/games.dir/build.make CMakeFiles/games.dir/src/mesh.cpp.s
+.PHONY : src/mesh.cpp.s
 
 src/models.o: src/models.cpp.o
 
@@ -336,9 +390,15 @@ help:
 	@echo "... src/glvar.o"
 	@echo "... src/glvar.i"
 	@echo "... src/glvar.s"
+	@echo "... src/magic_cube.o"
+	@echo "... src/magic_cube.i"
+	@echo "... src/magic_cube.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/mesh.o"
+	@echo "... src/mesh.i"
+	@echo "... src/mesh.s"
 	@echo "... src/models.o"
 	@echo "... src/models.i"
 	@echo "... src/models.s"

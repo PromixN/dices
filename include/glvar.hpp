@@ -5,8 +5,8 @@
     #include <gltype.hpp>
 
 
-    #define WINDOW_WIDTH	800
-    #define WINDOW_HEIGHT	600
+    #define WINDOW_WIDTH	1600
+    #define WINDOW_HEIGHT	1000
     #define VIEW_WIDTH		1000
     #define VIEW_HEIGHT		1000
     #define PI				3.1415627

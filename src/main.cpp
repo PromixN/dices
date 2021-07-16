@@ -1,4 +1,5 @@
 #include <glpre.hpp>
+#include <magic_cube.hpp>
 #include <iostream>
 
 int main()
@@ -28,6 +29,15 @@ int main()
     ImgShader imgshader("./shaders/img.vs","./shaders/img.fs");
     init_imgfunc(&imgshader);
 //model
+    unsigned int VAO,VBO;
+    float vertices []=
+	{
+	1,0,0,
+    0,1,0,
+    0,0,1,
+	};
+	Bind_data((int)7,(char)2,&(VAO),&(VBO),&(vertices[0]),sizeof(vertices),(int)3, (int)3);
+	
     bounce cube(cube_vertices,CV_NUM,cube_faces,CF_NUM,cube_edges,CE_NUM);
     bind_model(cube, 4);
     models plane(plane_vertices,PV_NUM,plane_faces,PF_NUM,NULL,0);
@@ -71,33 +81,35 @@ int main()
     load_cube(&texture1, 1, noise_files,0);
 
     // load_img(&imgshader,"./texture/a.jpg",0);
-    // load_img(&imgshader,"./texture/blue.png",1);
+    load_img(&imgshader,"./texture/blue.png",1);
     // load_img(&imgshader,"./texture/noise_1.jpg",0);
 //GL configuration
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-    glEnable(GL_CULL_FACE);
+    // glEnable(GL_CULL_FACE);
     glLineWidth(5);
+    glPointSize(50);
     // glFrontFace(GL_CW);
     glCullFace(GL_FRONT);
 
     lastFrame = glfwGetTime();
     camera_main.MoveSpeed=10.0f;
     dice.setBool("col",true);
-    int count = 0;
+    frame_count = INTERVAL_RTT;
+    frame_move = 0;
     while (!glfwWindowShouldClose(win_main))
     {
         // input
         // -----
         window_update();
-        if(!(count%INTERVAL_RTT))
-        step(0,2,0);
+        frame_count+=frame_move;
         // render
         // ------
         rend_dynamic_model(dice,&plane,camera_main);
         // rend_dynamic_model(dice,&cube,camera_main);
-        rend_magic_cube(cube_shader,&cube,camera_main,(count++%INTERVAL_RTT));
-        rend_img(&imgshader);
+        rend_magic_cube(cube_shader,&cube,camera_main,(frame_count));
+        // rend_img(&imgshader);
+        // rend_dot(edge,VAO,camera_main);
         //refresh
         glfwSwapBuffers(win_main);
         glfwPollEvents();
