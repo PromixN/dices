@@ -2,3 +2,7 @@ chaos/*
 build/CMake*
 build/.cmake/*
 .vscode/*
+.*.vc.*
+.*.sln
+Debug/*
+x64/*

@@ -1,4 +1,10 @@
 #pragma once
+#ifdef _WIN64
+#include <windows.h>
+#include <io.h>
+#elif __linux__
+#include <dirent.h>
+#endif
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <camera.hpp>
@@ -12,6 +18,8 @@
 #include <geom.hpp>
 #include <models.hpp>
 #include <mesh.hpp>
+#include <ctime>
+#include <string>
 
 
 
@@ -36,7 +44,6 @@ extern float lastFrame ;
 
 
 
-
 int init_glfw(int maj_version, int min_version);
 
 int init_window(GLFWwindow** window, int width, int height, \
@@ -45,6 +52,7 @@ int init_window(GLFWwindow** window, int width, int height, \
 int init_glad();
 
 int init_cube(unsigned int * VAO,unsigned int * VBO);
+int init_dir(std::string &shader_dir,std::string &texture_dir);
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -63,13 +71,15 @@ void Bind_data(int count, ...);
 void Bind_dynamic_float_vertice(
 	unsigned int* VAO, unsigned int* VBO, float* vertices, \
 	unsigned long long int vertices_size, int layout = 0, int interval = 3, int throughout = 3, int normalize = GL_FALSE, int offset = 0);
+void load_text(unsigned int* texture,int num, std::string file_name,char is_alpha=0);
 void load_text(unsigned int* texture, int num, const char* file_name,char is_alpha=0);
 void load_cube(unsigned int* texture,int num, std::vector<std::string> file_name,char is_alpha);
 void window_update();
 // void rend_dynamic_model(Shader shader,models model,Camera camera);
 void rend_dynamic_model(Shader& shader,models *model,Camera& camera);
 DL_Infactor getDLInfactor(int distance);
-void load_img(ImgShader* shader, char * path,int isalpha);
+void load_img(ImgShader* shader,std::string path,int isalpha);
+void load_img(ImgShader* shader,const char * path,int isalpha);
 void init_imgfunc(ImgShader *shader);
 void rend_img(ImgShader* shader);
 

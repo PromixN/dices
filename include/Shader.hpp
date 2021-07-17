@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+extern 	std::string shader_dir,texture_dir; 
 
 class Shader
 {
@@ -73,6 +74,10 @@ public:
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
+    }
+    Shader(std::string vertexPath, std::string fragmentPath):
+	Shader((shader_dir + vertexPath).c_str(),(shader_dir+fragmentPath).c_str())
+    {
     }
     // activate the shader
     // ------------------------------------------------------------------------
@@ -227,6 +232,10 @@ class ImgShader : public Shader
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
+    }
+	ImgShader(std::string vertexPath, std::string fragmentPath):
+	ImgShader((shader_dir + vertexPath).c_str(),(shader_dir+fragmentPath).c_str())
+    {
     }
 };
 #endif

@@ -6,9 +6,9 @@ extern int to_axis;
 extern int touch_face;
 extern glm::uvec3 at_pos;
 extern glm::vec3 hit_pos;
-extern char* ax_str  [];
-extern char* dir_str [];
-extern char* fa_str  [];
+extern std::string ax_str  [];
+extern std::string dir_str [];
+extern std::string fa_str  [];
 
 
 

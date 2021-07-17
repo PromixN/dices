@@ -1,3 +1,4 @@
+#include <ctime>
 #include <glpre.hpp>
 #include <magic_cube.hpp>
 #include <iostream>
@@ -5,10 +6,8 @@
 int main()
 {
 //config
-    std::ofstream of("./out.txt");
-    // 获取文件out.txt流缓冲区指针
-     std::streambuf* fileBuf = of.rdbuf();
-    // 设置cout流缓冲区指针为out.txt的流缓冲区指针
+	std::ofstream of("./out.txt");
+    std::streambuf* fileBuf = of.rdbuf();
     //  std::cout.rdbuf(fileBuf);
     srand(time(NULL));
 //initialization
@@ -17,16 +16,19 @@ int main()
 	glfwMakeContextCurrent(win_main);
     init_glad();
 	glfwSetFramebufferSizeCallback(win_main, framebuffer_size_callback);
+	framebuffer_size_callback(win_main,WINDOW_WIDTH,WINDOW_HEIGHT);
 	glfwSetInputMode(win_main, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	// glfwSetInputMode(win_main, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(win_main, mouse_callback);
     glfwSetMouseButtonCallback(win_main,mouse_button_callback);
 	glfwSetScrollCallback(win_main, scroll_callback);
+
+	init_dir(shader_dir,texture_dir);
 //shader
-    Shader dice("./shaders/dice.vs", "./shaders/dice.fs");
-    Shader cube_shader("./shaders/cubes.vs", "./shaders/cubes.fs");
-    Shader edge("./shaders/edge.vs", "./shaders/edge.fs");
-    ImgShader imgshader("./shaders/img.vs","./shaders/img.fs");
+    Shader dice(std::string("dice.vs"), std::string("dice.fs"));
+    Shader cube_shader(std::string("cubes.vs"), std::string("cubes.fs"));
+    Shader edge(std::string("edge.vs"), std::string("edge.fs"));
+    ImgShader imgshader(std::string("img.vs"),std::string("img.fs"));
     init_imgfunc(&imgshader);
 //model
     unsigned int VAO,VBO;//REND DOT
@@ -48,43 +50,43 @@ int main()
 //texture
     std::vector<std::string> files = 
     {
-        "./texture/1.png",
-        "./texture/2.png",
-        "./texture/3.png",
-        "./texture/4.png",
-        "./texture/5.png",
-        "./texture/6.png"
+        std::string("1.png"),
+        std::string("2.png"),
+        std::string("3.png"),
+        std::string("4.png"),
+        std::string("5.png"),
+        std::string("6.png")
     };
     std::vector<std::string> noise_files = 
     {
-        "./texture/noise_1.jpg",
-        "./texture/noise_1.jpg",
-        "./texture/noise_1.jpg",
-        "./texture/noise_1.jpg",
-        "./texture/noise_1.jpg",
-        "./texture/noise_1.jpg"
+        std::string("noise_1.jpg"),
+        std::string("noise_1.jpg"),
+        std::string("noise_1.jpg"),
+        std::string("noise_1.jpg"),
+        std::string("noise_1.jpg"),
+        std::string("noise_1.jpg")
     };
     std::vector<std::string> magic_cube_files = 
     {
-        "./texture/red.png",
-        "./texture/orange.png",
-        "./texture/green.png",
-        "./texture/blue.png",
-        "./texture/yellow.png",
-        "./texture/white.png"
+        std::string("red.png"),
+        std::string("orange.png"),
+        std::string("green.png"),
+        std::string("blue.png"),
+        std::string("yellow.png"),
+        std::string("white.png")
     };
     unsigned int texture1,texture2,texture3;
     dice.use();
 
     //TODO:: bind texture unit wite shader
-	load_text(&texture2, 2, "./texture/favicon.png",1);
+	load_text(&texture2, 2, std::string("favicon.png"),1);
     load_cube(&texture1, 3, files,1);
     load_cube(&texture3, 0, magic_cube_files,1);
     load_cube(&texture1, 1, noise_files,0);
 
-    // load_img(&imgshader,"./texture/a.jpg",0);
-    load_img(&imgshader,"./texture/blue.png",1);
-    // load_img(&imgshader,"./texture/noise_1.jpg",0);
+    // load_img(&imgshader,std::string("/a.jpg"),0);
+    load_img(&imgshader,std::string("blue.png"),1);
+    // load_img(&imgshader,std::string("/noise_1.jpg"),0);
 //GL configuration
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);

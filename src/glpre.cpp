@@ -2,7 +2,6 @@
 #include <glpre.hpp>
 #include <magic_cube.hpp>
 #include <cstdarg>
-
 #include <typeinfo>
 GLFWwindow* win_main;
 int window_width;
@@ -20,6 +19,7 @@ Camera camera_main;
 Shader gradual;
 Shader diffuss;
 Shader point;
+
 
 float deltaTime ;
 float lastFrame ;
@@ -56,6 +56,7 @@ int init_window(GLFWwindow** window, int width, int height, \
 		glfwTerminate();
 		return -1;
 	}
+
 	return 0;
 }
 
@@ -74,6 +75,71 @@ int init_cube(unsigned int * VAO,unsigned int * VBO)
 	Bind_data((int)8, (char)2, VAO, VBO, cube_box, sizeof(float)*CUBE_NUM, (int)6, (int)3, (int) 3);
 	return 0;		
 }
+
+
+#ifdef _WIN64
+int init_dir(std::string &shader_dir,std::string &texture_dir)
+{
+	char  buf [100];
+	//GetCurrentDirectory(100,buf);
+	GetModuleFileName(NULL, buf, 100);
+	struct _finddata_t fileinfo;
+	for(int i = strlen(buf)-1 ; i >=0;i--)
+	{
+		if(buf[i]!='\\')buf[i]='\0';
+		else break;
+	}
+	std::string P=std::string(buf);
+	long long int   hFile   =    _findfirst(P.append("*").c_str(),&fileinfo);
+	P.pop_back();
+	while(true)
+	{
+		do
+		{
+			if((fileinfo.attrib &  _A_SUBDIR)&&(strcmp(fileinfo.name,"shaders") == 0))
+			{
+				std::string tem = P;
+				shader_dir.assign(tem.append(fileinfo.name).append("\\"));
+				
+			}
+			if((fileinfo.attrib &  _A_SUBDIR)&&(strcmp(fileinfo.name,"texture") == 0))
+			{
+				std::string tem = P;
+				texture_dir.assign(tem.append(fileinfo.name).append("\\"));
+			}
+			
+		}
+		while(_findnext(hFile, &fileinfo)  == 0);
+		_findclose(hFile);
+		if(shader_dir.length()>0&&texture_dir.length()>0)
+		{
+			std::cout<<shader_dir<<std::endl;
+			std::cout<<texture_dir<<std::endl;
+			return 0;
+		}
+		if(shader_dir.length()>0||texture_dir.length()>0)
+		{
+			return 1;
+		}
+		hFile=_findfirst(P.append("../*").c_str(),&fileinfo);
+		buf[strlen(buf)-1]='\0';
+		for(int i = strlen(buf)-1 ; i >=0;i--)
+		{
+		if(buf[i]!='\\')buf[i]='\0';
+		else break;
+		}
+		P.assign(buf);
+	}
+	return 0;
+}
+#elif __linux__
+int init_dir(std::string &shader_dir,std::string &texture_dir)
+{
+	
+}
+#endif
+
+
 void processInput(GLFWwindow* window)
 {
 	char direction=0;
@@ -104,7 +170,7 @@ void mouse_button_callback(GLFWwindow* window, int botton, int action, int mods)
 		{
 			get_axis_direction(to_axis,rotate_direction);
 			printf("%d:%d:%d\n",at_pos.x,at_pos.y,at_pos.z);
-			printf("%s:%s:%s\n",fa_str[touch_face],ax_str[to_axis],dir_str[rotate_direction]);
+			std::cout<<fa_str[touch_face]<<ax_str[to_axis]<<dir_str[rotate_direction]<<std::endl;
 			step(to_axis,at_pos[to_axis],rotate_direction);
 		}
 		break;
@@ -314,6 +380,10 @@ void Bind_data(int count, ...)
 	return;
 }
 
+void load_text(unsigned int* texture,int num, std::string file_name,char is_alpha)
+{
+ load_text(texture,num,(texture_dir+ file_name).c_str(),is_alpha);
+}
 void load_text(unsigned int* texture,int num, const char* file_name,char is_alpha)
 {
 	stbi_set_flip_vertically_on_load(false);
@@ -357,7 +427,7 @@ void load_cube(unsigned int* texture,int num,std::vector<std::string> file_name,
 	int width, height, nrChnnels,count=0;
 	for(auto file : file_name)
 	{
-		unsigned char* data  = stbi_load(file.c_str(), &width, &height, &nrChnnels, 0);
+		unsigned char* data  = stbi_load((texture_dir+ file).c_str(), &width, &height, &nrChnnels, 0);
 		if (data) 
 		{
 		glTexImage2D(
@@ -489,7 +559,11 @@ void init_imgfunc(ImgShader *shader)
 	Bind_data((int)8,(char)2,&(shader->buffer.VAO),&(shader->buffer.VBO),&(vertices[0]),sizeof(vertices),(int)5, (int)3, (int) 2);
 	shader->buffer.size=6;
 }
-void load_img(ImgShader* shader, char * path,int isalpha)
+void load_img(ImgShader* shader,std::string path,int isalpha)
+{
+load_img(shader,(texture_dir + path).c_str(),isalpha);
+}
+void load_img(ImgShader* shader, const char * path,int isalpha)
 {
 	unsigned int text;
 	load_text(&text, 0, path, isalpha);
