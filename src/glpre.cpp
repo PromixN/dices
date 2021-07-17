@@ -205,7 +205,8 @@ void rend_dynamic_model(Shader& shader,models* model,Camera& camera)
 	// glActiveTexture(GL_TEXTURE0+1);
     // glBindTexture(GL_TEXTURE_CUBE_MAP, 2);
 	shader.setInt("texture1",3);
-	shader.setInt("texture2",3);
+	shader.setInt("texture2",2);
+	shader.setBool("cho",0);
 	shader.setMat4("model",model_t);
 	shader.setMat4("view",view);
 	shader.setVec3("viewPos",camera.Position);

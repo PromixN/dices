@@ -269,6 +269,7 @@ glm::vec2 get_offset(int i,bool sig)
     default:
         break;
     }
+    return glm::vec2(0);
 }
 
 glm::vec2 get_texture_pos(glm::vec3 vertext)
@@ -401,9 +402,7 @@ std::vector<glm::vec3> vlist =
     glm::vec3(-5.0,6.0,-3.0),
     glm::vec3(-3.0,6.0,3.0)
 };
-std::vector<glm::vec3> bounce::get_vertices()
-{
-}
+
 std::vector<glm::vec3> bounce::update()
 {
     std::vector<glm::vec3> tem;

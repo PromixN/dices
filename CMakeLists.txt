@@ -7,7 +7,7 @@ set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 set(CMAKE_BUILD_TYPE "Debug")
 
 
-include_directories("/usr/local/include/GLFW/" "/usr/local/include/glad/" "/usr/local/include/KHR/" "include/")
+include_directories("include/GLFW/" "include/glad/" "include/KHR/" "include/")
 FILE(GLOB SOURCE_FILES "src/*.cpp" "src/*.c" )
 
 add_executable(games ${SOURCE_FILES})

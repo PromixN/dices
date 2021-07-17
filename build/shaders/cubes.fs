@@ -21,12 +21,15 @@ void main()
     // float rate =sqrt(dot(v,v));
     // vec3 normal_tem = normalize(-rate*t+normal);
     vec3 normal_tem = (rotates*vec4(normalize(normal),1.0)).xyz;
-    vec3 light = vec3(0.0);
-    vec3 light_color = vec3(1.0);
-    vec3 diff,spec,ambient;
     // vec3 fragPos = temPos - rate*normal;
     vec3 fragPos = vec3((rotates*temPos).xyz) ;
-    ambient = light_color;
+
+    vec3 diff,spec,ambient;
+    vec3 light = vec3(0.0);
+    vec3 light_color = vec3(1.0,0.7,1.0);
+    // ambient = light_color;
+    ambient = vec3(1.0);
+    
     vec3 light_dir = normalize(fragPos-lightPos);
     vec3 light_ref =-dot(light_dir,normal_tem)*normal_tem*2+light_dir;
 

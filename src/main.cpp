@@ -77,7 +77,7 @@ int main()
     dice.use();
 
     //TODO:: bind texture unit wite shader
-	load_text(&texture2, 2, "./texture/awesomeface.png",1);
+	load_text(&texture2, 2, "./texture/favicon.png",1);
     load_cube(&texture1, 3, files,1);
     load_cube(&texture3, 0, magic_cube_files,1);
     load_cube(&texture1, 1, noise_files,0);

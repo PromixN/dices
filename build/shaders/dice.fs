@@ -7,7 +7,8 @@ in vec3 normal;
 in vec3 textPos;
 // flat in int choice;
 uniform samplerCube texture1;
-uniform samplerCube texture2;
+uniform sampler2D texture2;
+uniform bool cho;
 
 void main()
 {
@@ -60,7 +61,10 @@ void main()
     light = diff*0.2+spec*0.4+ambient*0.4;
 
     vec3 temtextPos =textPos;
-    FragColor =(texture(texture1, temtextPos))*vec4(light,1.0);
+    if(cho)
+        FragColor = (texture(texture1, temtextPos))*vec4(light,1.0);
+    else
+        FragColor = (texture(texture2, temtextPos.xz))*vec4(light*0.5,1.0);
     // FragColor =(texture(texture1, temtextPos)*vec4(light,1.0)+0.5*texture(texture2,temtextPos))*(vec4(0.7)+0.5*texture(texture2,temtextPos));
     // FragColor = mix(texture(texture1, temtextPos), texture(texture2, temtextPos), 0.2);
     // FragColor =texture(texture1,temtextPos);

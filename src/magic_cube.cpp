@@ -64,16 +64,16 @@ int face_dir2[4][4]=
 //the x-y-z order doesn't match that in face_dir
 int face_map[6]={0,1,4,5,2,3};
 
-char* ax_str  [] = {"x","y","z"};
-char* fa_str  [] = {"右","左","前","后","上","下"};
-char* dir_str [] = {"逆","顺"};
+char const* ax_str  [] = {"x","y","z"};
+char const* fa_str  [] = {"右","左","前","后","上","下"};
+char const* dir_str [] = {"逆","顺"};
 
 
-int init_list(cube_dsc_t* dsc)
+void init_list(cube_dsc_t* dsc)
 {
 	dsc->next=dsc->prev=dsc;
 }
-int push_list(cube_dsc_t* dsc,cube_dsc_t* new_dsc)
+void push_list(cube_dsc_t* dsc,cube_dsc_t* new_dsc)
 {
 	new_dsc->next=dsc;
 	new_dsc->prev=dsc->prev;
